@@ -10,8 +10,10 @@ class Dono(BaseModel):
 
     id = db.Column(db.Integer, primary_key=True)
     
-    # Atributos para a pag do dono
-    '''nome = db.Column(db.String(100))
-    email = db.Column(db.String(50))
+    # Atributos para o dono
+    nome = db.Column(db.String(100))
     telefone = db.Column(db.String(11))
-    data_consulta = db.Column(db.Date(12))'''
+    email = db.Column(db.String(50))
+    senha = db.Column(db.String(10))
+
+    # Relações

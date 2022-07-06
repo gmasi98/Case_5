@@ -10,7 +10,14 @@ class Funcionario(BaseModel):
 
     id = db.Column(db.Integer, primary_key=True)
 
-    '''nome = db.Column(db.String(100))
-    email = db.Column(db.String(50))
+    nome = db.Column(db.String(100))
+    idade = db.Column(db.String(2)) 
+    data_nascimento = db.Column(db.String(10))
+    cpf = db.Column(db.String(11))
     telefone = db.Column(db.String(11))
-    data_consulta = db.Column(db.Date(12))'''
+    endereco = db.Column(db.String(100))
+    email = db.Column(db.String(50))
+    senha = db.Column(db.String(10))
+    
+    # Relações 
+
