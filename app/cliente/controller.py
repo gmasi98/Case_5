@@ -1,12 +1,17 @@
 #verificar se cliente é com C maiúsculo ou minúsculo
 from app.cliente.model import Cliente
-from flask import request, jsonify
+from flask import render_template, request, jsonify
 from flask.views import MethodView
+from app.extensions import db,mail
+# enviar email de confirmação
+from flask_mail import Message
+
 
 
 class ClienteCreate(MethodView): #/registro: rota
 
     # criando algo do bd, registrando numa tabela
+    # adiciona no sistema um cliente
     def post(self):
 
         # pegando o corpo da requisição
@@ -54,6 +59,15 @@ class ClienteCreate(MethodView): #/registro: rota
 
             # criar obj, criar atributos
             cliente = Cliente(nome=nome, idade = idade, data_nascimento = data_nascimento, endereco = endereco, cpf=cpf, email=email, senha = senha, telefone=telefone, data_consulta=data_consulta)
+
+            db.session.add(cliente)
+            db.session.commit()
+            # o arq html eh o corpo do email, e o render_template vai carregar isso
+            msg = Message(sender = 'gabrielmarinhobom@poli.ufrj.br',
+            recipients=[email], subject = "Cadastro Realizado com sucesso!",
+            html = render_template('email.html', nome=nome))
+            # envia a mensagem de confirmação
+            mail.send(msg)
            
             # salvando obj no banco de dados
             cliente.save()

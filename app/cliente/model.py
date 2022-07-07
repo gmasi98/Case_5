@@ -9,23 +9,22 @@ class Cliente(BaseModel):
     __tablename__ = "cliente"
 
     id = db.Column(db.Integer, primary_key=True)
-
     # Dentro de uma tabela user, temos muitos atributos: login, senha, telefone, email, 
-    nome = db.Column(db.String(100))
-    idade = db.Column(db.String(3))
-    data_nascimento = db.Column(db.String(10))
-    endereco= db.Column(db.String(100))
-    cpf = db.Column(db.String(20), unique=True)
-    email = db.Column(db.String(50))
-    senha = db.Column(db.String(10))
-    telefone = db.Column(db.String(11))
-    data_consulta = db.Column(db.String(11))
+    nome = db.Column(db.String(100),nullable=False)
+    idade = db.Column(db.String(3),nullable=False)
+    data_nascimento = db.Column(db.String(10),nullable=False)
+    endereco= db.Column(db.String(100),nullable=False)
+    cpf = db.Column(db.String(20),unique=True,nullable=False)
+    email = db.Column(db.String(50),unique=True,nullable=False)
+    senha = db.Column(db.String(10),unique=True,nullable=False)
+    telefone = db.Column(db.String(11),nullable=False)
+    data_consulta = db.Column(db.String(11),nullable=False)
 
     # Relacionamentos
     marcela_dono = db.Column(db.Integer, db.ForeignKey("dono.id"))
 
 
-    
+    # retorna as info de um cliente no formato json
     def json(self):
 
         return {
@@ -37,6 +36,7 @@ class Cliente(BaseModel):
             "endereco": self.endereco,
             "cpf": self.cpf,
             "email": self.email,
+            # tirar senha
             "senha": self.senha,
             "telefone": self.telefone,
             "data_consulta": self.data_consulta

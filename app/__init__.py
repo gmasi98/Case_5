@@ -1,5 +1,5 @@
 from flask import Flask 
-from .extensions import db, migrate
+from .extensions import db, migrate, mail
 from .config import Config
 from app.cliente.model import cliente_api
 from app.dono.model import dono_api
@@ -17,6 +17,9 @@ def create_app():
     db.init_app(app)
     # migrate inicializado no app de acordo com o banco de dados
     migrate.init_app(app, db)
+    # mail sendo inicializado no app
+    mail.init_app(app)
+
 
     # aqui eh pra registrar no banco de dados
     app.register_blueprint(cliente_api)
