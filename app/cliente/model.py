@@ -1,6 +1,8 @@
 from app.extensions import db
+from app.extensions import db
 from app.model import BaseModel
 from flask import Blueprint
+import bcrypt
 
 cliente_api = Blueprint("cliente_api", __name__)
 
@@ -9,7 +11,7 @@ class Cliente(BaseModel):
     __tablename__ = "cliente"
 
     id = db.Column(db.Integer, primary_key=True)
-    # Dentro de uma tabela user, temos muitos atributos: login, senha, telefone, email, 
+    # Atributos
     nome = db.Column(db.String(100),nullable=False)
     idade = db.Column(db.String(3),nullable=False)
     data_nascimento = db.Column(db.String(10),nullable=False)
@@ -17,8 +19,11 @@ class Cliente(BaseModel):
     cpf = db.Column(db.String(20),unique=True,nullable=False)
     email = db.Column(db.String(50),unique=True,nullable=False)
     senha = db.Column(db.String(10),unique=True,nullable=False)
+    senha = bcrypt.hashpw(senha.encode(),bcrypt.gensalt()).decode()
+
     telefone = db.Column(db.String(11),nullable=False)
     data_consulta = db.Column(db.String(11),nullable=False)
+    hora_da_consulta = db.Column(db.String(5),nullable=False)
 
     # Relacionamentos
     marcela_dono = db.Column(db.Integer, db.ForeignKey("dono.id"))
@@ -36,10 +41,9 @@ class Cliente(BaseModel):
             "endereco": self.endereco,
             "cpf": self.cpf,
             "email": self.email,
-            # tirar senha
-            "senha": self.senha,
             "telefone": self.telefone,
-            "data_consulta": self.data_consulta
+            "data_consulta": self.data_consulta,
+            "hora_da_consulta": self.hora_da_consulta
             # não faz sentido retornar o json de uma relação de tabelas, por exemplo
         }
 

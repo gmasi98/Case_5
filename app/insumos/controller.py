@@ -1,6 +1,7 @@
 from app.insumos.model import Insumos
 from flask import request, jsonify
 from flask.views import MethodView
+from app.extensions import db
 
 
 class InsumosCreate(MethodView): #/registro: rota
@@ -42,6 +43,8 @@ class InsumosCreate(MethodView): #/registro: rota
 
             # criar obj, criar atributos
             insumos = Insumos(nome=nome, codigo=codigo, data_validade=data_validade, preco=preco)
+            db.session.add(insumos)
+            db.session.commit()
            
             # salvando obj no banco de dados
             insumos.save()
@@ -111,4 +114,3 @@ class InsumosDetails(MethodView): #/modificar: rota para essa pág
        insumos.delete(insumos)
 
        return insumos.json()
-       

@@ -10,14 +10,13 @@ class Insumos(BaseModel):
 
     id = db.Column(db.Integer, primary_key=True)
 
-    nome = db.Column(db.String(100))
-    codigo = db.Column(db.String(2)) 
-    data_validade = db.Column(db.String(10))
-    preco = db.Column(db.String(11))
+    nome = db.Column(db.String(100),nullable=False)
+    codigo = db.Column(db.String(2),unique=True,nullable=False) 
+    data_validade = db.Column(db.String(10),nullable=False)
+    preco = db.Column(db.String(11),nullable=False)
 
     
     funcionarios = db.relationship("Funcionario", secondary="insumos_funcionario", backref="insumos_verificados_funcionarios")
-
 
 
 class InsumosFuncionario(BaseModel):
